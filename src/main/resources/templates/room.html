@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title></title>
+</head>
+<body>
+  <!--  header  -->
+	<h1>SpringTalk</h1>
+
+  <!-- messages -->
+  <th:block th:each="message : ${messages}">
+    <p class="message" th:text="${message.text}"></p>
+  </th:block>
+  
+	<!-- submit form -->
+  <form th:action="@{/room}" th:object="${roomForm}" method="post">
+    <textarea cols="30" rows="3" th:field="*{text}"></textarea>
+    <p><input type="submit" value="Submit" /></p>
+  </form>
+
+</body>
+</html>

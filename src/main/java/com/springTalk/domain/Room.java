@@ -1,0 +1,52 @@
+package com.springTalk.domain;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "rooms", schema = "app")
+public class Room {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @JoinColumn(name = "owner_id", nullable = false)
+  @ManyToOne(cascade = CascadeType.ALL)
+  private User ownerId;
+
+  @OneToMany(mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<Membership> memberships;
+
+  @OneToMany(mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<Message> messages;
+
+  // JPA requirement
+  protected Room() {
+  }
+
+  public Room(User ownerId) {
+    this.ownerId = ownerId;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public User getOwnerId() {
+    return ownerId;
+  }
+
+  public void setOwnerId(User ownerId) {
+    this.ownerId = ownerId;
+  }
+}

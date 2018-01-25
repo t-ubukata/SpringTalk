@@ -1,0 +1,374 @@
+1. VirtualBoxとCentOSの導入
+
+環境
+ホストマシン
+machine: x64 PC
+CPU: Intel Corei5-4670
+RAM: 8GB
+OS: Windows 8.1 x64
+
+ゲストマシン
+machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)
+CPU: 2 CPUs
+RAM: 4GB
+Storage: 32GB
+OS: CentOS 7.3.1611
+
+VirtualBoxをインストール
+http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html?ssSourceSiteId=otnjp
+
+CentOS IOS image をダウンロード
+http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1708.iso
+
+VMの作成
+
+CentOSインストール
+
+ネットワーク設定
+
+VirtualBoxをホストマシンのコマンドラインからバックグラウンドで起動
+>VBoxManage startvm CentOS --type headless
+Waiting for VM "CentOS" to power on...
+VM "CentOS" has been successfully started.
+
+RLoginのインストール
+http://nanno.dip.jp/softlib/man/rlogin/
+
+ホストマシンからSSHでログイン
+
+パッケージのアップデート
+sudo yum update
+
+jdk 1.8.0をインストール
+sudo yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+java -version
+openjdk version "1.8.0_141"
+
+環境変数 JAVA_HOME 設定
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export PATH=$PATH:$JAVA_HOME/bin
+echo $JAVA_HOME
+/usr/lib/jvm/java-1.8.0-opnejdk
+
+
+
+2. Apache HTTP Serverとfirewalldの設定
+
+起動
+sudo service httpd start
+sudo service httpd status
+  Active: active (running) since Mon 2017-06-19 12:43:49 JST; 16s ago
+
+自動起動の設定
+systemctl enable httpd.service
+
+firewalldの設定
+sudo systemctl enable firewalld
+sudo firewall-cmd --add-service=http
+sudo firewall-cmd --add-service=https
+firewall-cmd --list-service
+dhcp-v6-client ssh http https
+
+テストページ表示
+
+再起動するとfirewalldの設定が消えている
+
+permanentオプションつけて再設定
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+
+ドキュメントルートのownerを変更
+ls -l /var/www
+total 0
+drwxr-xr-x. 2 root root  6 Apr 13 06:04 cgi-bin
+drwxr-xr-x. 2 root root 24 Aug  5 20:41 html
+
+sudo chown -R apache /var/www/html
+sudo chown -R .apache /var/www/html
+
+index.html 作成
+Forbidden
+
+パーミッション確認
+ls -l
+total 4
+-rw-rw-r--. 1 apache apache 140 Aug  5 20:19 index.html
+
+SELinuxを無効にする
+sudo vi /etc/sysconfig/selinux
+SELINUX=enforcing
+を
+SELINUX=disabled
+に変更
+
+3. Oracle DB のインストールとユーザー、テーブル作成
+必要なパッケージのインストール
+sudo yum -y install binutils compat-libcap1 gcc gcc-c++ glibc glibc.i686 glibc-devel glibc.i686 ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++l7.i686 libstdc++-devel libstdc++-devel.i686 compat-libstdc++-33 compat-libstdc++-33.i686 libXi libXi.i686 libXtst libXtst.i686 make sysstat
+
+カーネル・パラメータの編集
+sudo vi /etc/sysctl.conf
+
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 388196
+kernel.shmmax = 1987571712
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048576
+kernel.panic_on_oops = 1
+
+反映
+sudo sysctl -p
+
+グループの作成
+sudo groupadd -g 54321 oinstall
+sudo groupadd -g 54322 dba
+sudo groupadd -g 54323 oper
+sudo groupadd -g 54324 backupdba
+sudo groupadd -g 54325 dgdba
+sudo groupadd -g 54326 kmdba
+sudo groupadd -g 54327 racdba
+
+ユーザーの作成
+sudo useradd -u 1200 -g oinstall -G dba,oper,backupdba,dgdba,kmdba,racdba -d /home/oracle oracle
+sudo passwd oracle
+
+ディレクトリの作成
+sudo mkdir -p /u01/app/oracle
+sudo chown oracle:oinstall /u01/app/oracle
+sudo chmod -R 775 /u01
+
+GNOMEのインストール
+sudo yum -y groupinstall "GNOME Desktop"
+
+ローカルコンソールから oracle でログイン
+startx
+
+ダウンロード
+Oracleのユーザーアカウントが必要
+
+http://www.oracle.com/technetwork/jp/database/enterprise-edition/downloads/index.html
+Oracle Database 12c Release 2
+Linux x86-64
+
+解凍
+unzip linuxx64_12201_database.zip
+
+インストーラー起動
+./database/runInstaller
+
+Create Inventory でエラーになるのでインストーラーのデフォルト設定でディレクトリ作成
+sudo mkedir /u01/app/oraInventory
+sudo chown oracle:oinstall /u01/app/oraInventory
+sudo chmod 775 /u01/app/oraInventory
+
+Prerequisite Checks が失敗したので修正スクリプトを実行
+sudo /tmp/CVU_12.2.0.1.2_oracle/runfixup.sh
+
+Swap Sizeが足りないので追加
+
+スワップファイル作成
+sudo dd if=/dev/zero of=/swap2 bs=1M count=600
+sudo chmod 600 /swap2
+sudo mkswap /swap2
+swapon /swap2
+
+確認
+swapon -s
+Filename                                Type            Size    Used    Priority
+/swap2                                  file    614396  0       -1
+/dev/dm-1                               partition       3354620 0       -2
+
+自動マウントの設定
+sudo vi /etc/fstab
+追記
+/swap2                  swap                    swap    defaults        0 0
+
+スクリプト実行の指示が出るので実行
+sudo /u01/app/oraInventory/orainstRoot.sh
+sudo /u01/app/oracle/product/12.2.0/dbhome_1/root.sh
+
+oracleユーザー環境変数追加
+vi ~/.bash_profile
+追記
+export ORACLE_HOME=/u01/app/oracle/product/12.2.0/dbhome_1
+export PATH=$PATH:$ORACLE_HOME/bin
+
+listner設定
+全部デフォルトで設定
+
+DB作成
+
+自動起動の設定
+vi /etc/oratab
+NをYに変更
+chatdb:/u01/app/oracle/product/12.2.0/dbhome_1:Y
+
+oracleユーザー環境変数追加
+vi ~/.bash_profile
+追記
+export ORACLE_SID=chatdb
+
+sqlplus起動
+sqlplus
+
+SQL*Plus: Release 12.2.0.1.0 Production on Fri Aug 25 23:54:00 2017
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Enter user-name: SYS as SYSDBA
+Enter password:
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL>
+
+ユーザー作成
+
+create user app
+identified by "password"
+default tablespace users
+temporary tablespace temp;
+
+テーブル作成
+
+create table app.users (
+  id number generated always as identity primary key,
+  name nvarchar2(32) not null,
+  password nvarchar2(32) not null);
+
+create table app.rooms (
+  id number generated always as identity primary key,
+  owner_id number references app.users(id));
+
+create table app.memberships (
+  membership_id number generated always as identity primary key,
+  room_id number references app.users(id),
+  user_id number references app.rooms(id));
+
+create table app.messages (
+  id number generated always as identity primary key,
+  sender_id number references app.users(id),
+  room_id number references app.rooms(id),
+  text nvarchar2(256) not null,
+  created_at timestamp default systimestamp not null);
+
+
+
+4. ホストマシンの開発環境構築
+
+JDKがなければインストール
+java -version
+java version "1.8.0_151"
+
+javac -version
+javac 1.8.0_151
+
+Mavenインストール
+https://maven.apache.org/download.cgi
+
+以下に展開
+C:\Program Files\apache-maven-3.5.0
+
+環境変数設定
+setx MAVEN_HOME "C:\Program Files\apache-maven-3.5.0"
+setx Path "%Path%%MAVEN_HOME%\bin;"
+
+mvn -version
+Apache Maven 3.5.0 (ff8f5e7444045639af65f6095c62210b5713f426; 2017-04-04T04:39:06+09:00)
+Maven home: C:\Program Files\apache-maven-3.5.0\bin\..
+Java version: 1.8.0_60, vendor: Oracle Corporation
+Java home: C:\Program Files\Java\jre1.8.0_60
+Default locale: en_US, platform encoding: MS932
+OS name: "windows 8.1", version: "6.3", arch: "amd64", family: "windows"
+
+Spring Boot CLIインストール
+https://repo.spring.io/snapshot/org/springframework/boot/spring-boot-cli/2.0.0.BUILD-SNAPSHOT/spring-boot-cli-2.0.0.BUILD-SNAPSHOT-bin.zip
+
+以下に展開
+C:\Program Files\spring-2.0.0.BUILD-SNAPSHOT
+
+環境変数設定
+setx path "%path%C:\Program Files\spring-2.0.0.BUILD-SNAPSHOT\bin"
+setx SPRING_HOME "C:\Program Files\spring-2.0.0.BUILD-SNAPSHOT"
+
+spring -version
+spring CLI v2.0.0.BUILD-SNAPSHOT
+
+pom.xml記述
+
+mvn package
+
+Spring Tool Suiteをインストール
+Spring Starter Project
+DependenciesでSecurity, JPA, Thymeleaf, Webを選択
+
+5.コーディング
+
+ディレクトリ構成
+src/main/
+  java/com/springTalk/
+    SpringTalkApplication.java
+    domain/
+      Membership.java
+      Message.java
+      Room.java
+      User.java
+      MembershipRepository.java
+      MessageRepository.java
+      RoomRepository.java
+      UserRepository.java
+    service/
+      MembershipsService.java
+      MessagesService.java
+      RoomsService.java
+      UsersService.java
+    web/
+      RoomsController.java
+      RoomsForm.java
+      RoomController.java
+      RoomForm.java
+  resources/
+    application.properties
+    static/
+      index.html
+    templates/
+      rooms.html
+      room.html
+
+6.ビルド
+sprigTalk [boot] を右クリック
+Properties
+Maven
+Acrive Maven Profiles
+pom.xml を削除
+
+http://www.oracle.com/technetwork/database/features/jdbc/jdbc-ucp-122-3110062.html
+ojdbc8.jar をダウンロード
+springTalk/lib/ojdbc8.jar に配置
+
+mvn install:install-file -Dfile="D:/project/workspace-sts-3.9.1.RELEASE/springTalk/lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
+
+sprigTalk [boot] を右クリック
+Run As
+Maven install
+
+7. 実行
+ゲストマシンの以下に配置
+/home/java/springTalk-0.0.1-SNAPSHOT.jar
+java -jar springTalk-0.0.1-SNAPSHOT.jar
+
+pom.xml から security をコメントアウト
+application.yml でポートを80に設定
+httpd 停止
+sudo systemctl stop httpd.service
+1024以下のポートでlistenするためにはroot権限が必要なためrootで起動する
+
+listenerが起動していなかったので
+lsnrctl
+start

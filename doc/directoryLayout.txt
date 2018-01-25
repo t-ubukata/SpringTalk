@@ -1,0 +1,27 @@
+src/main/
+  java/com/springTalk/
+    SpringTalkApplication.java
+    domain/
+      Membership.java
+      Message.java
+      Room.java
+      User.java
+      MembershipRepository.java
+      MessageRepository.java
+      RoomRepository.java
+      UserRepository.java
+    service/
+      MembershipsService.java
+      MessagesService.java
+      RoomsService.java
+      UsersService.java
+    web/
+      RoomsController.java
+      RoomController.java
+  resources/
+    application.properties
+    static/
+      index.html
+    templates/
+      rooms.html
+      room.html

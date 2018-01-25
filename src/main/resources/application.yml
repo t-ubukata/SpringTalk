@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        connection:
+          characterEncoding: utf-8
+          CharSet: utf-8
+          useUnicode: true
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:chatdb
+    username: app
+    password: password
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    connectionProperties: useUnicode=true;characterEncoding=utf-8;
+server:
+  port: 80
