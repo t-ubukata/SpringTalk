@@ -205,7 +205,7 @@ systemctl enable httpd.service
 
 build
 ================================================================================
-Mavenインストール
+ホストマシンにMavenインストール
 https://maven.apache.org/download.cgi
 
 環境変数設定

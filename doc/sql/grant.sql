@@ -31,4 +31,7 @@ grant select,
 grant create sequence
   to app_role;
 
+grant select any sequence
+  to app_role;
+
 grant app_role to app;
