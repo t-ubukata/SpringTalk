@@ -233,7 +233,7 @@ sqlplus sys/password as ssydba
 
 lsnrctl start
 
-sudo java -jar springTalk-0.0.1-SNAPSHOT.jar
+sudo java -jar /home/java/springTalk-0.0.1-SNAPSHOT.jar
 
 
 
