@@ -10,13 +10,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users", schema = "app")
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence_generator")
+  @SequenceGenerator(name = "user_id_sequence_generator", sequenceName = "user_id_sequence", schema = "app")
   private Long id;
 
   @Column(nullable = false)

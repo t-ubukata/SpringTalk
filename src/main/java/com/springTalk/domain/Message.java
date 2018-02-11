@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,7 +19,8 @@ import javax.persistence.TemporalType;
 @Table(name = "messages", schema = "app")
 public class Message {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "message_id_sequence_generator")
+  @SequenceGenerator(name = "message_id_sequence_generator", sequenceName = "message_id_sequence", schema = "app")
   private Long id;
 
   @JoinColumn(name = "sender_id", nullable = false)

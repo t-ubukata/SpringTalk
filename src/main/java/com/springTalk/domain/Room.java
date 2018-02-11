@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "rooms", schema = "app")
 public class Room {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_id_sequence_generator")
+  @SequenceGenerator(name = "room_id_sequence_generator", sequenceName = "room_id_sequence", schema = "app")
   private Long id;
 
   @JoinColumn(name = "owner_id", nullable = false)
