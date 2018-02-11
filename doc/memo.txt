@@ -1,7 +1,5 @@
-1. VirtualBoxとCentOSのインストール
-================================================================================
-
 環境
+================================================================================
 ホストマシン
 machine: x64 PC
 CPU: Intel Corei5-4670
@@ -14,17 +12,26 @@ CPU: 2 CPUs
 RAM: 4GB
 Storage: 32GB
 OS: CentOS 7.3.1611
+DB: Oracle Database 12c Release2
+JDK: OpenJDK 1.8.0_141
 
+
+
+VM作成
+================================================================================
 VirtualBoxをインストール
 http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html?ssSourceSiteId=otnjp
 
+VM作成
+
+
+CentOS インストール
+================================================================================
 CentOS IOS image をダウンロード
 http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-1708.iso
 
-VM作成
-
 CentOSインストール
-Basic Web Server
+Basic Web Server を選択
 
 ネットワーク設定
 
@@ -38,51 +45,37 @@ VM "CentOS" has been successfully started.
 パッケージアップデート
 sudo yum update
 
-jdk 1.8.0インストール
-sudo yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel
-java -version
-openjdk version "1.8.0_141"
-
-環境変数 JAVA_HOME 設定
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
-export PATH=$PATH:$JAVA_HOME/bin
-echo $JAVA_HOME
-/usr/lib/jvm/java-1.8.0-opnejdk
+SELinux無効化
+sudo vi /etc/sysconfig/selinux
+SELINUX=disabled
 
 
-
-2. Apache HTTP Serverとfirewalldの設定
-================================================================================
-
-起動
-sudo service httpd start
-sudo service httpd status
-  Active: active (running) since Mon 2017-06-19 12:43:49 JST; 16s ago
-
-自動起動の設定
-systemctl enable httpd.service
-
-firewalldの設定
+firewalld 設定
 sudo systemctl enable firewalld
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 firewall-cmd --list-service
 dhcp-v6-client ssh http https
 
-ドキュメントルートのowner変更
-ls -l /var/www
-total 0
-drwxr-xr-x. 2 root root  6 Apr 13 06:04 cgi-bin
-drwxr-xr-x. 2 root root 24 Aug  5 20:41 html
-
-SELinux無効化
-sudo vi /etc/sysconfig/selinux
-SELINUX=disabled
 
 
-
-3. Oracle DB のインストール
+JDK インストール
 ================================================================================
+sudo yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+java -version
+openjdk version "1.8.0_141"
+
+環境変数設定
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
+export PATH=$PATH:$JAVA_HOME/bin
+
+
+
+Oracle DB インストール
+================================================================================
+インストレーション・ガイド
+http://www.oracle.com/technetwork/jp/database/enterprise-edition/documentation/sidb12201-inst-linux-x64-ja-v10-3627443-ja.pdf
+
 必要なパッケージのインストール
 sudo yum -y install binutils compat-libcap1 gcc gcc-c++ glibc glibc.i686 glibc-devel glibc.i686 ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++l7.i686 libstdc++-devel libstdc++-devel.i686 compat-libstdc++-33 compat-libstdc++-33.i686 libXi libXi.i686 libXtst libXtst.i686 make sysstat
 
@@ -102,7 +95,6 @@ net.core.wmem_default = 262144
 net.core.wmem_max = 1048576
 kernel.panic_on_oops = 1
 
-反映
 sudo sysctl -p
 
 グループ作成
@@ -131,10 +123,8 @@ startx
 
 ダウンロード
 Oracleのユーザーアカウントが必要
-
 http://www.oracle.com/technetwork/jp/database/enterprise-edition/downloads/index.html
-Oracle Database 12c Release 2
-Linux x86-64
+Oracle Database 12c Release 2 Linux x86-64 を選択
 
 展開
 unzip linuxx64_12201_database.zip
@@ -178,7 +168,7 @@ export ORACLE_HOME=/u01/app/oracle/product/12.2.0/dbhome_1
 export PATH=$PATH:$ORACLE_HOME/bin
 
 listner設定
-全部デフォルトで設定
+すべてデフォルトで設定
 
 DB作成
 
@@ -203,14 +193,18 @@ doc/sql/create_table.sql
 
 
 
-4. ビルド
+Apache HTTP Server 設定
 ================================================================================
-java -version
-java version "1.8.0_151"
+起動
+sudo service httpd start
 
-javac -version
-javac 1.8.0_151
+自動起動の設定
+systemctl enable httpd.service
 
+
+
+build
+================================================================================
 Mavenインストール
 https://maven.apache.org/download.cgi
 
@@ -219,30 +213,31 @@ setx MAVEN_HOME "C:\Program Files\apache-maven-3.5.0"
 setx Path "%Path%%MAVEN_HOME%\bin;"
 
 mvn install:install-file -Dfile="D:/project/workspace-sts-3.9.1.RELEASE/springTalk/lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
-
 mvn install
 
 
 
-5. deploy
+deploy
 ================================================================================
+適当なディレクトリにjarを配置
 /home/java/springTalk-0.0.1-SNAPSHOT.jar
-java -jar springTalk-0.0.1-SNAPSHOT.jar
 
 
 
-6. 実行
+起動
 ================================================================================
-sudo systemctl stop httpd.service
+sudo service httpd stop
 
 sqlplus sys/password as ssydba
 >startup
 
 lsnrctl start
 
+sudo java -jar springTalk-0.0.1-SNAPSHOT.jar
 
 
-7. マシンのシャットダウン
+
+シャットダウン
 ================================================================================
 sqlplus sys/password as ssydba
 >shutdown
