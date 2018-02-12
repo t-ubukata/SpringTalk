@@ -31,7 +31,7 @@ public class RoomsController {
   @GetMapping("/rooms")
   public String roomsGet(Model model) {
     List<Room> rooms = roomService.getRoomsOrderByIdDesc();
-    model.addAttribute("room", rooms);
+    model.addAttribute("rooms", rooms);
     model.addAttribute("roomsForm", new RoomsForm());
     return "rooms";
   }
