@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "memberships", schema = "app")
 public class Membership {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "membership_id_sequence_generator")
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "membership_id_sequence_generator")
   @SequenceGenerator(name = "membership_id_sequence_generator", sequenceName = "membership_id_sequence", schema = "app")
   private Long membershipId;
 
