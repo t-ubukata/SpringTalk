@@ -5,6 +5,8 @@ machine: x64 PC
 CPU: Intel Corei5-4670
 RAM: 8GB
 OS: Windows 8.1 x64
+JDK: 1.8.0_151
+Maven: 3.5.0
 
 ゲストマシン
 machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)
@@ -48,7 +50,6 @@ sudo yum update
 SELinux無効化
 sudo vi /etc/sysconfig/selinux
 SELINUX=disabled
-
 
 firewalld 設定
 sudo systemctl enable firewalld
@@ -212,7 +213,9 @@ https://maven.apache.org/download.cgi
 setx MAVEN_HOME "C:\Program Files\apache-maven-3.5.0"
 setx Path "%Path%%MAVEN_HOME%\bin;"
 
-JDBCドライバーがリモートリポジトリで配布されていないためをローカルリポジトリに登録
+JDBCドライバーがリモートリポジトリで配布されていないため、
+Oracleのサイトからダウンロードしてローカルリポジトリに登録
+http://www.oracle.com/technetwork/database/features/jdbc/jdbc-ucp-122-3110062.html
 mvn install:install-file -Dfile="D:/project/workspace-sts-3.9.1.RELEASE/springTalk/lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
 
 mvn install
