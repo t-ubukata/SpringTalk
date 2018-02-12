@@ -212,7 +212,9 @@ https://maven.apache.org/download.cgi
 setx MAVEN_HOME "C:\Program Files\apache-maven-3.5.0"
 setx Path "%Path%%MAVEN_HOME%\bin;"
 
+JDBCドライバーがリモートリポジトリで配布されていないためをローカルリポジトリに登録
 mvn install:install-file -Dfile="D:/project/workspace-sts-3.9.1.RELEASE/springTalk/lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
+
 mvn install
 
 
