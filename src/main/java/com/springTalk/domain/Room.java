@@ -51,4 +51,8 @@ public class Room {
   public void setOwnerId(User ownerId) {
     this.ownerId = ownerId;
   }
+
+  public List<Message> getMessages() {
+    return messages;
+  }
 }
