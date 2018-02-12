@@ -35,7 +35,7 @@ public class Message {
   private String text;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(nullable = false)
+  @Column(insertable = false, updatable = false)
   private Date createdAt;
 
   // JPA requirement
