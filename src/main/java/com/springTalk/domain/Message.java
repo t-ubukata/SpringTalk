@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 @Table(name = "messages", schema = "app")
 public class Message {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "message_id_sequence_generator")
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "message_id_sequence_generator")
   @SequenceGenerator(name = "message_id_sequence_generator", sequenceName = "message_id_sequence", schema = "app")
   private Long id;
 

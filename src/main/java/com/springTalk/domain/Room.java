@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "rooms", schema = "app")
 public class Room {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "room_id_sequence_generator")
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "room_id_sequence_generator")
   @SequenceGenerator(name = "room_id_sequence_generator", sequenceName = "room_id_sequence", schema = "app")
   private Long id;
 
