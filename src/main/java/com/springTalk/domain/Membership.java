@@ -2,6 +2,7 @@ package com.springTalk.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,11 +20,11 @@ public class Membership {
   private Long membershipId;
 
   @JoinColumn(name = "room_id", nullable = false)
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Room roomId;
 
   @JoinColumn(name = "user_id", nullable = false)
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private User userId;
 
   // JPA requirement
