@@ -29,7 +29,7 @@ public class Message {
   private User senderId;
 
   @JoinColumn(name = "room_id", nullable = false)
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   private Room roomId;
 
   @Column(nullable = false)
