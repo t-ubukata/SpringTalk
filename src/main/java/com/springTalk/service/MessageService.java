@@ -15,6 +15,10 @@ public class MessageService {
   @Autowired
   private MessageRepository repository;
 
+  public List<Message> getFirstMessageOfRoomOrderByIdDesc() {
+    return repository.findFirstMessageOfRoomOrderByIdDesc();
+  }
+
   public List<Message> getMessagesByRoomIdOrderById(Long roomId) {
     return repository.findByRoomIdOrderById(roomId);
   }

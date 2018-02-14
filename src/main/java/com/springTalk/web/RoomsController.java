@@ -30,9 +30,14 @@ public class RoomsController {
 
   @GetMapping("/rooms")
   public String roomsGet(Model model) {
-    List<Room> rooms = roomService.getRoomsOrderByIdDesc();
-    model.addAttribute("rooms", rooms);
+    List<Message> messages = messageService.getFirstMessageOfRoomOrderByIdDesc();
+    model.addAttribute("messages", messages);
     model.addAttribute("roomsForm", new RoomsForm());
+
+    // List<Room> rooms = roomService.getRoomsOrderByIdDesc();
+    // model.addAttribute("rooms", rooms);
+    // model.addAttribute("roomsForm", new RoomsForm());
+
     return "rooms";
   }
 
@@ -40,9 +45,14 @@ public class RoomsController {
   public String roomsPost(Model model, @Valid RoomsForm roomsForm, BindingResult bindingResult,
       HttpServletRequest request) {
     if (bindingResult.hasErrors()) {
-      List<Room> rooms = roomService.getRoomsOrderByIdDesc();
-      model.addAttribute("room", rooms);
+      List<Message> messages = messageService.getFirstMessageOfRoomOrderByIdDesc();
+      model.addAttribute("messages", messages);
       model.addAttribute("roomsForm", new RoomsForm());
+
+      // List<Room> rooms = roomService.getRoomsOrderByIdDesc();
+      // model.addAttribute("rooms", rooms);
+      // model.addAttribute("roomsForm", new RoomsForm());
+
       return "rooms";
     }
 
