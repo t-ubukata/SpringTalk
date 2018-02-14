@@ -6,7 +6,7 @@ RAM: 8GB
 OS: Windows 8.1 x64
 JDK: 1.8.0_151
 FrameWork: Spring Boot 1.5.9.RELEASE
-Maven: 3.5.0
+Build Tool: Maven 3.5.0
 
 guest machine
 machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)
