@@ -16,6 +16,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
   // native query dependent on Oracle DB
   @Query(value = "select *" + "from app.messages" + "where id"
-      + "in (select min(id) as id from app.messages group by room_id)" + "order by id desc", nativeQuery = true)
+      + "in (select min(id) as id from app.messages group by room_id)" + "order by id desc;", nativeQuery = true)
   List<Message> findFirstMessageOfRoomOrderByIdDesc();
 }
