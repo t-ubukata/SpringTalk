@@ -10,7 +10,7 @@
 
   <!-- room list -->
   <th:block th:each="message : ${messages}">
-    <p class="messages"><a href= "@{'/room/' + ${message.getRoomId().getId()}}" th:text="${message.getText()}"></a></p>
+    <p class="messages"><a th:href= "@{'/room/' + ${message.roomId}}" th:text="${message.getText()}"></a></p>
   </th:block>
 
   <!-- create form -->
