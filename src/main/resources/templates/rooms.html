@@ -10,11 +10,13 @@
 
   <!-- room list -->
   <th:block th:each="message : ${messages}">
-    <p class="messages"><a href="/room/${message.getRoomId()}" th:text="${message.getText()}"></a></p>
+    <p class="messages"><a href="/room/${message.getRoomId().getId()}" th:text="${message.getText()}"></a></p>
   </th:block>
 
   <!-- create form -->
+  <!-- temporary comment out
   <p>Create a New Room</p>
+  -->
 	<form th:action="@{/rooms}" th:object="${roomsForm}" method="post">
     <textarea cols="30" rows="3" th:field="*{text}"></textarea>
 	  <p><input type="submit" value="Submit" /></p>
