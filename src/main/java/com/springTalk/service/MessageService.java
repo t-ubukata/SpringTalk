@@ -19,6 +19,7 @@ public class MessageService {
     return repository.findFirstMessageOfRoomOrderByIdDesc();
   }
 
+  // ToDo: remove unused method
   public List<Message> getMessagesByRoomIdOrderById(Long roomId) {
     return repository.findByRoomIdOrderById(roomId);
   }

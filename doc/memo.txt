@@ -6,6 +6,7 @@ CPU: Intel Corei5-4670
 RAM: 8GB
 OS: Windows 8.1 x64
 JDK: 1.8.0_151
+FrameWork: Spring Boot 1.5.9.RELEASE
 Maven: 3.5.0
 
 ゲストマシン

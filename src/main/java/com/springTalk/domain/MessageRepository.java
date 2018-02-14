@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
+  // ToDo: remove unused method
   List<Message> findAllByOrderByIdDesc();
 
   List<Message> findByRoomIdOrderById(Long roomId);
