@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
+  List<Message> findAllByOrderByIdDesc();
+
   List<Message> findByRoomIdOrderById(Long roomId);
 
   List<Message> findBySenderIdOrderById(Long senderId);
