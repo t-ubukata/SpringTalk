@@ -19,9 +19,20 @@ src/main/
       RoomsController.java
       RoomController.java
   resources/
-    application.properties
+    application.yml
     static/
       index.html
     templates/
       rooms.html
       room.html
+doc/
+  sql/
+    create_sequence.sql
+    create_table.sql
+    create_user.sql
+    grant.sql
+lib/
+  ojdbc8.jar
+target/
+  springTalk-0.0.1-SNAPSHOT.jar
+pom.xml

@@ -1,5 +1,5 @@
 fqdn
-  Top.
+  Top page.
   If has no session, redirect to login / sign up page.
   If has session, redirect to /rooms.
 fqdn/rooms
