@@ -1,5 +1,5 @@
 # SpringTalk
-Chat Application using Spring Boot and Oracle Database  
+Chat application using Spring Boot and Oracle Database
 
 ## build
 ```
