@@ -8,35 +8,36 @@ OS: CentOS 7.3.1611 Basic Web Server
 DB: Oracle Database 12c Release2
 JDK: OpenJDK 1.8.0_141
 
-Oracle Database instalation
+Oracle Database 12c Release 2 (12.2.0.1) å˜ä¸€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ»ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ»ã‚¤ãƒ³ã‚¹ãƒˆãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ»ã‚¬ã‚¤ãƒ‰ Linux x86-64 ç‰ˆ
 http://www.oracle.com/technetwork/jp/database/enterprise-edition/documentation/sidb12201-inst-linux-x64-ja-v10-3627443-ja.pdf
 
-chatdbì¬
+DBä½œæˆ
+dbca -silent -createDatabase -templateName General_Purpose.dbc -gdbname chatdb -sid chatdb -responseFile NO_VALUE -characterSet AL32UTF8 -memoryPercentage 40 -emConfiguration LOCAL
 
-©“®‹N“®‚Ìİ’è
+è‡ªå‹•èµ·å‹•è¨­å®š
 $vi /etc/oratab
-N‚ğY‚É•ÏX
+Nã‚’Yã«å¤‰æ›´
 chatdb:/u01/app/oracle/product/12.2.0/dbhome_1:Y
 
-oracleƒ†[ƒU[ŠÂ‹«•Ï”’Ç‰Á
+oracleãƒ¦ãƒ¼ã‚¶ãƒ¼ç’°å¢ƒå¤‰æ•°è¿½åŠ 
 $vi ~/.bash_profile
-’Ç‹L
+è¿½è¨˜
 $export ORACLE_SID=chatdb
 
-sqlplus‹N“®
+sqlplusèµ·å‹•
 $sqlplus sys/password as sysdba
 
-ƒ†[ƒU[ì¬
+ãƒ¦ãƒ¼ã‚¶ãƒ¼ä½œæˆ
 doc/sql/create_user.sql
 
-ƒe[ƒuƒ‹ì¬
+ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆ
 doc/sql/create_table.sql
 
-sqlplus sys/password as ssydba
+sqlplus sys/password as sydba
 SQL>startup
 
 $lsnrctl start
 
-springTalk\target\springTalk-0.0.1-SNAPSHOT.jar‚ğ“K“–‚ÈƒfƒBƒŒƒNƒgƒŠ‚É”z’u
+springTalk\target\springTalk-0.0.1-SNAPSHOT.jarã‚’é©å½“ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®
 
 $sudo java -jar springTalk-0.0.1-SNAPSHOT.jar

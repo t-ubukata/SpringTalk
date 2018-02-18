@@ -1,8 +1,7 @@
 build
-JDBCƒhƒ‰ƒCƒo[‚ªƒŠƒ‚[ƒgƒŠƒ|ƒWƒgƒŠ‚Å”z•z‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA
-Oracle‚ÌƒTƒCƒg‚©‚çƒ_ƒEƒ“ƒ[ƒh‚µ‚Äƒ[ƒJƒ‹ƒŠƒ|ƒWƒgƒŠ‚É“o˜^
+JDBCãƒ‰ãƒ©ã‚¤ãƒãƒ¼ãŒãƒªãƒ¢ãƒ¼ãƒˆãƒªãƒã‚¸ãƒˆãƒªã§é…å¸ƒã•ã‚Œã¦ã„ãªã„ãŸã‚ã€
+Oracleã®ã‚µã‚¤ãƒˆã‹ã‚‰ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ã¦ãƒ­ãƒ¼ã‚«ãƒ«ãƒªãƒã‚¸ãƒˆãƒªã«ç™»éŒ²
 http://www.oracle.com/technetwork/database/features/jdbc/jdbc-ucp-122-3110062.html
-$mvn install:install-file -Dfile="D:/project/workspace-sts-3.9.1.RELEASE/springTalk/lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
+$mvn install:install-file -Dfile="./lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
 
 $mvn install
-
