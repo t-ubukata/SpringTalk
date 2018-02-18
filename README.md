@@ -41,13 +41,13 @@ export ORACLE_SID=chatdb
 ```
   
 ユーザー作成  
-doc/sql/create_user.sql  
+sql/create_user.sql  
 テーブル作成  
-doc/sql/create_table.sql  
+sql/create_table.sql  
 シーケンス作成  
-doc/sql/create_sequence.sql  
+sql/create_sequence.sql  
 権限付与  
-doc/sql/create_sequence.sql  
+sql/create_sequence.sql  
   
 DBインスタンス起動
 ```
@@ -56,7 +56,7 @@ SQL>startup
 $lsnrctl start
 ```
   
-起動
+起動  
 springTalk\target\springTalk-0.0.1-SNAPSHOT.jarを適当なディレクトリに配置
 ```
 $sudo java -jar springTalk-0.0.1-SNAPSHOT.jar
