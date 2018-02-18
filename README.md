@@ -8,58 +8,56 @@ $mvn install
 ```
 
 ## deployment sample
-machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)
-CPU: 2 CPUs
-RAM: 4GB
-Storage: 32GB
-OS: CentOS 7.3.1611 Basic Web Server
-DB: Oracle Database 12c Release2
-JDK: OpenJDK 1.8.0_141
-
-Oracle Database 12c Release 2 (12.2.0.1) ’PˆêƒCƒ“ƒXƒ^ƒ“ƒXEƒf[ƒ^ƒx[ƒXEƒCƒ“ƒXƒgƒŒ[ƒVƒ‡ƒ“EƒKƒCƒh Linux x86-64 ”Å
-http://www.oracle.com/technetwork/jp/database/enterprise-edition/documentation/sidb12201-inst-linux-x64-ja-v10-3627443-ja.pdf
-
-DBì¬
+machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)  
+CPU: 2 CPUs  
+RAM: 4GB  
+Storage: 32GB  
+OS: CentOS 7.3.1611 Basic Web Server  
+DB: Oracle Database 12c Release2  
+JDK: OpenJDK 1.8.0_141  
+  
+Oracle Database 12c Release 2 (12.2.0.1) å˜ä¸€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ»ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ»ã‚¤ãƒ³ã‚¹ãƒˆãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ãƒ»ã‚¬ã‚¤ãƒ‰ Linux x86-64 ç‰ˆ  
+http://www.oracle.com/technetwork/jp/database/enterprise-edition/documentation/sidb12201-inst-linux-x64-ja-v10-3627443-ja.pdf  
+  
+DBä½œæˆ
 ```
 $dbca -silent -createDatabase -templateName General_Purpose.dbc -gdbname chatdb -sid chatdb -responseFile NO_VALUE -characterSet AL32UTF8 -memoryPercentage 40 -emConfiguration LOCAL
 ```
-
-©“®‹N“®İ’è
+  
+è‡ªå‹•èµ·å‹•è¨­å®š
 ```
 $vi /etc/oratab
 ```
-N‚ğY‚É•ÏX
-chatdb:/u01/app/oracle/product/12.2.0/dbhome_1:Y
-
-oracleƒ†[ƒU[ŠÂ‹«•Ï”’Ç‰Á
+Nã‚’Yã«å¤‰æ›´  
+chatdb:/u01/app/oracle/product/12.2.0/dbhome_1:Y  
+  
+ç’°å¢ƒå¤‰æ•°è¨­å®š
 ```
-$vi ~/.bash_profile
+$vi /home/oracle/.bash_profile
 ```
-’Ç‹L
-$export ORACLE_SID=chatdb
-
-sqlplus‹N“®
+è¿½è¨˜  
 ```
-$sqlplus sys/password as sysdba
+export ORACLE_SID=chatdb  
 ```
-
-ƒ†[ƒU[ì¬
-doc/sql/create_user.sql
-
-ƒe[ƒuƒ‹ì¬
-doc/sql/create_table.sql
-
+  
+ãƒ¦ãƒ¼ã‚¶ãƒ¼ä½œæˆ  
+doc/sql/create_user.sql  
+ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆ  
+doc/sql/create_table.sql  
+ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ä½œæˆ  
+doc/sql/create_sequence.sql  
+æ¨©é™ä»˜ä¸  
+doc/sql/create_sequence.sql  
+  
+DBã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹èµ·å‹•
 ```
 $sqlplus sys/password as sydba
 SQL>startup
-```
-
-```
 $lsnrctl start
 ```
-
-springTalk\target\springTalk-0.0.1-SNAPSHOT.jar‚ğ“K“–‚ÈƒfƒBƒŒƒNƒgƒŠ‚É”z’u
-
+  
+èµ·å‹•
+springTalk\target\springTalk-0.0.1-SNAPSHOT.jarã‚’é©å½“ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®
 ```
 $sudo java -jar springTalk-0.0.1-SNAPSHOT.jar
 ```
