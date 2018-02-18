@@ -29,7 +29,7 @@ public class Room {
   @OneToMany(mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Membership> memberships;
 
-  @OneToMany(mappedBy = "roomId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "roomId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Message> messages;
 
   // JPA requirement
