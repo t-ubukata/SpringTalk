@@ -1,5 +1,8 @@
 create role app_role;
 
+grant create session
+  to app_role;
+
 grant select,
   insert,
   update,
@@ -28,10 +31,21 @@ grant select,
   on app.messages
   to app_role;
 
-grant create sequence
+grant select
+  on app.user_id_sequence
   to app_role;
 
-grant select any sequence
+grant select
+  on app.room_id_sequence
   to app_role;
 
-grant app_role to app;
+grant select
+  on app.message_id_sequence
+  to app_role;
+
+grant select
+  on app.membership_id_sequence
+  to app_role;
+
+grant app_role
+  to app;
