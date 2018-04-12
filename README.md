@@ -1,13 +1,16 @@
 # SpringTalk
 Chat application using Spring Boot and Oracle Database
 
-## build
+## Demo
+watch demo.avi
+
+## Build
 ```
 $mvn install:install-file -Dfile="./lib/ojdbc8.jar" -DgroupId="com.oracle" -DartifactId="ojdbc8" -Dversion="12.2.0.1" -Dpackaging="jar"
 $mvn install
 ```
 
-## deployment sample
+## Deployment sample
 machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)  
 CPU: 2 CPUs  
 RAM: 4GB  
@@ -29,7 +32,9 @@ $dbca -silent -createDatabase -templateName General_Purpose.dbc -gdbname chatdb 
 $vi /etc/oratab
 ```
 NをYに変更  
+```
 chatdb:/u01/app/oracle/product/12.2.0/dbhome_1:Y  
+```
   
 環境変数設定
 ```
