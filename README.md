@@ -17,17 +17,17 @@ $mvn install
 
 ### Environment
 
-machine: Oracle VM VirtualBox 5.1.22 r115126 (Qt5.6.2)  
+machine: Oracle VM VirtualBox  
 CPU: 2 CPUs  
 RAM: 4GB  
 Storage: 32GB  
-OS: CentOS 7.3.1611 Basic Web Server  
+OS: CentOS 7 Basic Web Server  
 DB: Oracle Database 12c Release2  
-JDK: OpenJDK 1.8.0_141  
+JDK: 1.8  
 
 ### Orace Database installation
 
-See the installation guidebelow.  
+See the installation guide below.  
 English  
 http://www.oracle.com/technetwork/jp/database/enterprise-edition/documentation/sidb12201-inst-linux-x64-ja-v10-3627443-ja.pdf  
 Japanese  
