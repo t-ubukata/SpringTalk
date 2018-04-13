@@ -65,15 +65,8 @@ export ORACLE_SID=chatdb
 
 ### Setup instance
 
-Creeate user.  
-sql/create_user.sql  
-Create table.  
-sql/create_table.sql  
-Create sequence.  
-sql/create_sequence.sql  
-Grant.  
-sql/grant.sql  
-  
+sql/setup.sql
+
 ### Start instance
 
 ```
